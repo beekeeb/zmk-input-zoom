@@ -1,0 +1,5 @@
+name: zmk-input-zoom
+build:
+  cmake: .
+  settings:
+    dts_root: .

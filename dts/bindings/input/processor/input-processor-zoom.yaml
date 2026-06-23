@@ -1,0 +1,35 @@
+description: |
+  ZMK input processor that converts a configurable relative input event into
+  ZMK key-press events (zoom-in or zoom-out depending on delta sign).
+
+  bindings[0] = zoom-out behavior (delta < 0)
+  bindings[1] = zoom-in  behavior (delta > 0)
+
+  Example:
+    zip_zoom_mapper: zip_zoom_mapper {
+        compatible = "zmk,input-processor-zoom";
+        #input-processor-cells = <0>;
+        event-code = <INPUT_REL_MISC>;
+        sensitivity = <3>;
+        bindings = <&kp LG(MINUS)>, <&kp LG(EQUAL)>;
+        track-remainders;
+    };
+
+compatible: "zmk,input-processor-zoom"
+
+properties:
+  event-code:
+    type: int
+    required: true
+    description: Relative event code to match (e.g. INPUT_REL_MISC).
+  sensitivity:
+    type: int
+    default: 1
+    description: Delta units required to trigger one zoom step. Higher values require more movement per step.
+  track-remainders:
+    type: boolean
+    description: Accumulate sub-threshold deltas across events.
+  bindings:
+    type: phandle-array
+    required: true
+    description: "[zoom-out, zoom-in] behavior bindings."
